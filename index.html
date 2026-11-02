@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serval - Value Engineering Framework | Brad Smith</title>
+<meta name="description" content="An interactive business value assessment for Serval's AI-native enterprise service management platform, with value drivers drawn from Serval's published customer outcomes.">
+<meta property="og:title" content="Serval Business Value Model">
+<meta property="og:description" content="An interactive business value assessment for Serval's AI-native ESM platform. Value drivers drawn from Serval's published customer outcomes, with every assumption adjustable.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bsmitty56.github.io/serval-value-model/">
+<meta property="og:site_name" content="Brad Smith | Value Engineering">
+<meta property="og:image" content="https://bsmitty56.github.io/serval-value-model/og-image.png">
+<meta property="og:image:secure_url" content="https://bsmitty56.github.io/serval-value-model/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Serval Business Value Assessment: 3-year NPV $6.1M, ROI 233%, payback 4.0 months, 3-year TCO $3.2M. Prepared by Brad Smith.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Serval Business Value Model">
+<meta name="twitter:description" content="An interactive business value assessment for Serval's AI-native ESM platform, built from their published customer outcomes.">
+<meta name="twitter:image" content="https://bsmitty56.github.io/serval-value-model/og-image.png">
+<style>
+:root{
+  color-scheme:dark;
+  --surface-bg:#101216; --surface-card:#171a1f; --surface-sunken:#1b1e24;
+  --surface-border:#2b2f36; --surface-border-strong:#464c55;
+  --content-heading:#e9ebef; --content-strong:#d3d6dc; --content-body:#b6bcc5;
+  --content-muted:#878e99; --content-faint:#7c8086;
+  --accent-primary:#6d9def; --accent-primary-on:#ffffff; --accent-weak:#1b2941; --accent-strong:#93b8f7;
+  --caution:#d3a24f;
+  --control-track:#2b2f36; --control-fill:#878e99; --control-thumb:#b6bcc5;
+  --ramp-dark:#1d3f73; --ramp-light:#9dbdf0; --ramp-text-on-dark:#ffffff; --ramp-text-on-light:#0f172a;
+}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --surface-bg:#fafafb; --surface-card:#ffffff; --surface-sunken:#f7f8f9;
+  --surface-border:#d4d8de; --surface-border-strong:#a8aeb7;
+  --content-heading:#16181d; --content-strong:#292d33; --content-body:#3e434c;
+  --content-muted:#6b7078; --content-faint:#70757c;
+  --accent-primary:#1b4db1; --accent-primary-on:#ffffff; --accent-weak:#e8eef9; --accent-strong:#14398a;
+  --caution:#8a5a00;
+  --control-track:#dfe2e7; --control-fill:#6b7078; --control-thumb:#3e434c;
+  --ramp-dark:#1b4db1; --ramp-light:#cfe0f7;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; background:var(--surface-bg); color:var(--content-strong);
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:16px; -webkit-font-smoothing:antialiased;
+}
+.shell{max-width:1152px; margin:0 auto; display:flex; flex-direction:column; gap:32px; padding-block:32px; padding-left:32px; padding-right:32px}
+
+/* type scale */
+.t-xs{font-size:12px; line-height:16px}
+.t-caption,.t-label{font-size:13px; line-height:1.45}
+.t-body{font-size:15px; line-height:1.5}
+.t-driver{font-size:16px; line-height:1.35}
+.t-heading{font-size:19px; line-height:1.3}
+.t-area-total{font-size:22px; line-height:1.2}
+.t-summary{font-size:26px; line-height:1.15}
+.t-kpi{font-size:34px; line-height:1.05}
+.num{font-variant-numeric:tabular-nums}
+
+/* header */
+header.vm{display:flex; flex-direction:column; gap:16px; border-bottom:1px solid var(--surface-border-strong); padding-bottom:24px}
+@media(min-width:640px){header.vm{flex-direction:row; align-items:flex-start; justify-content:space-between}}
+.pill{display:inline-block; border-radius:999px; border:1px solid color-mix(in srgb, var(--accent-primary) 40%, transparent); background:color-mix(in srgb, var(--accent-primary) 10%, transparent); padding:4px 12px; font-size:13px; line-height:1.45; font-weight:600; color:var(--accent-primary)}
+h1{margin:12px 0 0; font-size:30px; line-height:1.2; font-weight:700; color:var(--accent-primary); text-wrap:balance}
+.hdr-sub{margin:4px 0 0; font-size:15px; line-height:1.5; color:var(--content-muted)}
+.hdr-basis{margin:4px 0 0; font-size:13px; line-height:1.45; color:var(--content-faint); max-width:78ch}
+.hdr-right{display:flex; flex-direction:column; align-items:flex-start; gap:8px}
+@media(min-width:640px){.hdr-right{align-items:flex-end}}
+.hdr-row{display:flex; align-items:center; gap:12px}
+.btn-sm{border-radius:6px; border:1px solid var(--surface-border); background:transparent; padding:4px 8px; font:inherit; font-size:13px; line-height:1.45; color:var(--content-muted); cursor:pointer}
+.btn-sm:hover{border-color:var(--surface-border-strong); color:var(--content-strong)}
+.btn-md{border-radius:6px; border:1px solid var(--surface-border); background:transparent; padding:4px 12px; font:inherit; font-size:13px; line-height:1.45; color:var(--content-muted); cursor:pointer}
+.btn-md:hover{border-color:var(--surface-border-strong); color:var(--content-strong)}
+.seg{display:inline-flex; border-radius:8px; border:1px solid var(--surface-border); background:var(--surface-bg); padding:4px; font-size:14px; line-height:20px; flex-wrap:wrap}
+.seg button{border:0; background:transparent; border-radius:6px; padding:6px 12px; font:inherit; color:var(--content-body); cursor:pointer; transition:background-color .15s, color .15s}
+.seg button:hover{color:var(--content-strong)}
+.seg button[aria-pressed="true"]{background:var(--accent-primary); color:var(--accent-primary-on); font-weight:600}
+
+/* KPI strip */
+.kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--surface-border); border:1px solid var(--surface-border); border-radius:12px; overflow:hidden}
+.kpi{background:var(--surface-bg); padding:24px}
+.kpi .l{margin:0; font-size:13px; line-height:1.45; color:var(--content-faint)}
+.kpi .v{margin:8px 0 0; font-size:34px; line-height:1.05; font-weight:700; color:var(--content-heading); font-variant-numeric:tabular-nums}
+.kpi .s{margin:4px 0 0; font-size:13px; line-height:1.45; color:var(--content-faint)}
+
+/* panel card */
+.panel{border-radius:12px; border:1px solid var(--surface-border); background:var(--surface-card); padding:24px}
+.panel hr{border:0; border-top:1px solid var(--surface-border); margin:16px 0}
+.sum-head{display:flex; flex-direction:column; gap:16px}
+@media(min-width:640px){.sum-head{flex-direction:row; align-items:center; justify-content:space-between}}
+h2{margin:0; font-size:19px; line-height:1.3; font-weight:600; color:var(--content-heading)}
+.sum-sub{margin:4px 0 0; font-size:15px; line-height:1.5; color:var(--content-muted)}
+.sum-box{border-radius:8px; border:1px solid var(--surface-border); background:var(--surface-bg); padding:12px 24px; text-align:right}
+.sum-box .l{margin:0; font-size:13px; line-height:1.45; color:var(--content-faint)}
+.sum-box .v{margin:4px 0 0; font-size:26px; line-height:1.15; font-weight:700; color:var(--content-heading); font-variant-numeric:tabular-nums; white-space:nowrap}
+.chart-head{display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap}
+.chart-total{font-size:22px; line-height:1.2; font-weight:700; color:var(--content-heading); font-variant-numeric:tabular-nums}
+.bar{display:flex; height:32px; width:100%; overflow:hidden; border-radius:6px; margin-top:12px}
+.bar > div{display:flex; align-items:center; justify-content:center; font-size:12px; line-height:16px; font-weight:600; font-variant-numeric:tabular-nums; min-width:0; transition:width .2s ease}
+.legend{display:flex; flex-wrap:wrap; gap:8px 20px; margin-top:12px; font-size:15px; line-height:1.5}
+.legend > div{display:flex; align-items:center; gap:8px; min-width:0}
+.swatch{height:12px; width:12px; flex:none; border-radius:2px}
+.legend .nm{color:var(--content-body)}
+.legend .vl{font-weight:500; color:var(--content-strong); font-variant-numeric:tabular-nums}
+
+/* section */
+.sec-head{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px}
+.sec-head h2{color:var(--content-strong)}
+.area-list{display:flex; flex-direction:column; gap:12px; margin-top:16px}
+
+/* area card */
+.area{border-radius:12px; border:1px solid var(--surface-border); background:var(--surface-card)}
+.area.off{opacity:.55}
+.area-head{display:flex; flex-wrap:wrap; align-items:center; gap:12px 24px; padding:16px 20px}
+.area-toggle{display:flex; min-width:0; align-items:center; gap:8px; border:0; background:transparent; padding:0; font:inherit; font-size:19px; line-height:1.3; font-weight:600; color:var(--content-strong); cursor:pointer; text-align:left}
+.chev{height:16px; width:16px; flex:none; color:var(--content-muted); transition:transform .15s}
+.area.open .chev{transform:rotate(90deg)}
+.area-right{margin-left:auto; display:flex; flex-wrap:wrap; align-items:center; gap:12px 24px}
+.area-total{font-size:22px; line-height:1.2; font-weight:600; color:var(--content-heading); font-variant-numeric:tabular-nums}
+.area-pending{margin:0; font-size:13px; line-height:1.45; color:var(--content-faint)}
+.area-factor{display:flex; align-items:center; gap:12px; font-size:13px; line-height:1.45; color:var(--content-muted)}
+.area-factor .track{width:128px}
+@media(min-width:640px){.area-factor .track{width:160px}}
+.collapse{display:grid; grid-template-rows:0fr; transition:grid-template-rows .15s ease}
+.area.open .collapse{grid-template-rows:1fr}
+.collapse > div{overflow:hidden; min-height:0}
+.area-body{padding:0 20px 20px}
+.area-body hr{border:0; border-top:1px solid var(--surface-border); margin:0 0 16px}
+.area-desc{margin:0; font-size:15px; line-height:1.5; color:var(--content-muted)}
+.driver-grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:16px}
+@media(min-width:1024px){.driver-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* driver card */
+.driver{border-radius:8px; border:1px solid var(--surface-border); background:var(--surface-bg); padding:16px; display:flex; flex-direction:column}
+.driver.off{opacity:.5}
+.d-top{display:flex; align-items:flex-start; gap:8px}
+.d-title{margin:0; font-size:16px; line-height:1.35; font-weight:600; color:var(--content-strong); text-wrap:balance}
+.d-lead{margin:4px 0 0; font-size:15px; line-height:1.5; color:var(--content-body); text-wrap:pretty}
+.d-pending{margin:12px 0 0; font-size:13px; line-height:1.45; color:var(--content-faint)}
+.d-inputs{display:grid; grid-template-columns:1fr; gap:8px; margin-top:12px}
+@media(min-width:640px){.d-inputs{grid-template-columns:repeat(2,1fr)}}
+.inp{border-left:2px solid var(--surface-border); padding-left:12px; min-width:0}
+.inp .l{margin:0; font-size:13px; line-height:1.45; color:var(--content-muted)}
+.inp .v{margin:0; font-size:15px; line-height:1.5; font-weight:500; color:var(--content-strong); font-variant-numeric:tabular-nums}
+.inp .s{margin:4px 0 0; border-top:1px solid var(--surface-border); padding-top:4px; font-size:12px; line-height:16px; font-style:italic; color:var(--content-faint)}
+.d-ctl{margin-top:16px; border-top:1px solid var(--surface-border); padding-top:12px}
+.d-row{display:flex; align-items:center; justify-content:space-between; gap:12px; font-size:13px; line-height:1.45; color:var(--content-muted)}
+.d-row .pct{font-size:15px; line-height:1.5; font-weight:600; color:var(--content-strong); font-variant-numeric:tabular-nums}
+.d-row.v2{margin-top:8px}
+.d-row .amt{font-size:15px; line-height:1.5; font-weight:700; color:var(--content-heading); font-variant-numeric:tabular-nums}
+.d-note{margin:12px 0 0; border-radius:6px; border:1px solid color-mix(in srgb, var(--caution) 45%, transparent); padding:8px 10px; font-size:12px; line-height:16px; color:var(--caution)}
+.d-inspect{margin-top:16px; width:100%; border-radius:6px; border:1px solid var(--surface-border); background:transparent; padding:8px 0; font:inherit; font-size:15px; line-height:1.5; color:var(--content-body); cursor:pointer}
+.d-inspect:hover{background:var(--surface-card)}
+
+/* controls */
+input[type=range]{-webkit-appearance:none; appearance:none; width:100%; height:24px; margin:0; background:transparent; cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:6px; border-radius:3px; background:linear-gradient(to right, var(--control-fill) var(--fill,0%), var(--control-track) var(--fill,0%))}
+input[type=range]::-moz-range-track{height:6px; border-radius:3px; background:var(--control-track)}
+input[type=range]::-moz-range-progress{height:6px; border-radius:3px; background:var(--control-fill)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; width:18px; height:18px; margin-top:-6px; border:2px solid var(--surface-bg); border-radius:50%; background:var(--control-thumb); box-shadow:0 0 0 1px var(--control-thumb)}
+input[type=range]::-moz-range-thumb{width:18px; height:18px; border:2px solid var(--surface-bg); border-radius:50%; background:var(--control-thumb); box-shadow:0 0 0 1px var(--control-thumb)}
+input[type=checkbox]{height:16px; width:16px; flex:none; margin:0; accent-color:var(--accent-primary); cursor:pointer}
+.cb-wrap{display:inline-flex; align-items:center; cursor:pointer}
+
+/* modal */
+.overlay{position:fixed; inset:0; z-index:50; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.6); padding:16px}
+.overlay.open{display:flex}
+.modal{max-height:80vh; width:100%; max-width:672px; overflow-y:auto; border-radius:12px; border:1px solid var(--surface-border-strong); background:var(--surface-card); padding:24px}
+.m-head{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:16px; border-bottom:1px solid var(--surface-border); padding-bottom:16px}
+.m-head h3{margin:0; font-size:19px; line-height:1.3; font-weight:600; color:var(--content-heading)}
+.m-desc{margin:0 0 16px; font-size:15px; line-height:1.5; color:var(--content-muted)}
+h4.m-sec{margin:24px 0 0; font-size:13px; line-height:1.45; font-weight:600; color:var(--content-faint)}
+h4.m-sec.first{margin-top:0}
+.m-subnote{margin:0; font-size:12px; line-height:16px; color:var(--content-faint)}
+.m-grid{display:grid; grid-template-columns:1fr; gap:8px; margin-top:8px}
+@media(min-width:640px){.m-grid{grid-template-columns:repeat(2,1fr)}}
+ol.steps{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-direction:column; gap:8px}
+ol.steps li{border-radius:6px; border:1px solid var(--surface-border); background:var(--surface-sunken); padding:12px; font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; font-size:12px; line-height:16px; color:var(--content-body); overflow-x:auto}
+ol.steps .nm{font-weight:600; color:var(--content-heading)}
+ol.steps .nm.plain{font-weight:400; color:var(--content-muted)}
+ol.steps .out{margin-left:8px; color:var(--content-faint)}
+ol.steps .sub{color:var(--content-faint)}
+ul.evid{list-style:none; margin:8px 0 0; padding:0}
+ul.evid li{border-bottom:1px solid var(--surface-border); padding-bottom:8px; margin-bottom:8px}
+ul.evid li:last-child{border-bottom:0; padding-bottom:0; margin-bottom:0}
+ul.evid .claim{display:block; font-size:15px; line-height:1.5; color:var(--content-body)}
+ul.evid a{display:inline-block; margin-top:4px; font-size:12px; line-height:16px; color:var(--accent-primary); text-decoration:none}
+ul.evid a:hover{text-decoration:underline}
+
+footer{font-size:13px; line-height:1.6; color:var(--content-faint); border-top:1px solid var(--surface-border); padding-top:16px}
+:focus-visible{outline:2px solid var(--accent-primary); outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@media(max-width:1023px){.kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:639px){
+  .shell{padding-left:16px; padding-right:16px}
+  .kpis{grid-template-columns:1fr}
+  h1{font-size:26px}
+  .kpi .v{font-size:28px}
+  .area-right{margin-left:0; width:100%}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header class="vm">
+    <div>
+      <span class="pill">CFO Value Engineering Framework</span>
+      <h1>Serval</h1>
+      <p class="hdr-sub">Product: AI-native Enterprise Service Management, ITSM, Help Desk Agent, Catalyst automation, Access Management, CMDB and Asset Management | Prepared by Brad Smith</p>
+      <p class="hdr-basis" id="basis"></p>
+    </div>
+    <div class="hdr-right">
+      <div class="hdr-row">
+        <span class="t-label" style="color:var(--content-faint)">Scenario multiplier</span>
+        <button class="btn-sm" id="theme">Light</button>
+      </div>
+      <div class="seg" id="scenarios">
+        <button data-s="0.5">Conservative (0.5x on estimates)</button>
+        <button data-s="1" aria-pressed="true">Expected</button>
+        <button data-s="1.25">Aggressive (1.25x on estimates)</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="panel">
+    <div class="sum-head">
+      <div>
+        <h2>Projected Annual Financial Impact</h2>
+        <p class="sum-sub">Adjust category toggles and sliders below to model real-time ROI scenarios.</p>
+      </div>
+      <div class="sum-box">
+        <p class="l">Total annual realized value</p>
+        <p class="v" id="total">$0 / yr</p>
+      </div>
+    </div>
+    <hr>
+    <div class="chart-head">
+      <h2>Where the value comes from</h2>
+      <span class="chart-total" id="chartTotal">$0 / yr</span>
+    </div>
+    <div class="bar" id="bar"></div>
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <section>
+    <div class="sec-head">
+      <h2>Value Areas &amp; Realization Controls</h2>
+      <div style="display:flex; gap:8px">
+        <button class="btn-md" id="expandAll">Expand all</button>
+        <button class="btn-md" id="collapseAll">Collapse all</button>
+      </div>
+    </div>
+    <div class="area-list" id="areas"></div>
+  </section>
+
+  <footer>
+    Independent analysis by Brad Smith, built from Serval's publicly available customer stories and published materials. Serval does not publish pricing, so the platform fee and rollout cost are stated assumptions. Not affiliated with or endorsed by Serval.
+  </footer>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <div class="m-head">
+      <h3 id="m-title"></h3>
+      <button class="btn-sm" id="m-close" aria-label="Close">&#10005;</button>
+    </div>
+    <div id="m-body"></div>
+  </div>
+</div>
+
+<script>
+// Serval value model: shared data and math. Loaded by index.html and by verify.mjs
+const n  = v => Math.round(v).toLocaleString('en-US');
+const n2 = v => (Math.round(v * 100) / 100).toLocaleString('en-US');
+const m  = v => '$' + Math.round(v).toLocaleString('en-US');
+const p  = v => (Math.round(v * 1000) / 10) + '%';
+const GLOBALS = [
+  { key: 'employees', label: 'Employees', value: 10000, min: 500, max: 150000, step: 500, fmt: 'int' },
+  { key: 'ticketsPerEmp', label: 'Support tickets per employee per year', value: 8, min: 2, max: 24, step: 1, fmt: 'int' },
+  { key: 'minsPerTicket', label: 'Agent minutes per ticket, end to end', value: 30, min: 5, max: 90, step: 1, fmt: 'int' },
+  { key: 'itRate', label: 'Fully burdened IT support hourly rate', value: 75, min: 30, max: 200, step: 5, fmt: 'usd' },
+  { key: 'engRate', label: 'Fully burdened IT engineering hourly rate', value: 95, min: 40, max: 250, step: 5, fmt: 'usd' },
+  { key: 'itFteCost', label: 'Fully loaded annual cost per IT FTE', value: 155000, min: 60000, max: 300000, step: 5000, fmt: 'usd' },
+  { key: 'empRate', label: 'Fully burdened employee hourly rate', value: 65, min: 25, max: 200, step: 5, fmt: 'usd' },
+  { key: 'joinerLeaverEvents', label: 'Onboarding and offboarding events per year', value: 2000, min: 50, max: 40000, step: 50, fmt: 'int' },
+  { key: 'accessRequests', label: 'Access requests per year', value: 20000, min: 500, max: 400000, step: 500, fmt: 'int' },
+  { key: 'recapture', label: 'Productivity recapture on time saved', value: 0.5, min: 0.1, max: 1, step: 0.05, fmt: 'pct' },
+  { key: 'platformFee', label: 'Serval platform fee per year (assumption)', value: 1000000, min: 50000, max: 8000000, step: 25000, fmt: 'usd' },
+  { key: 'oneTimeCost', label: 'One-time internal rollout effort', value: 200000, min: 0, max: 2000000, step: 10000, fmt: 'usd' },
+  { key: 'wacc', label: 'Discount rate (WACC)', value: 0.10, min: 0.04, max: 0.2, step: 0.005, fmt: 'pct' }
+];
+
+const S = {
+  ramp: 'https://www.serval.com/customers/ramp',
+  perplexity: 'https://www.serval.com/customers/perplexity',
+  together: 'https://www.serval.com/customers/togetherai',
+  mercor: 'https://www.serval.com/customers/mercor',
+  cribl: 'https://www.serval.com/customers/cribl',
+  seatgeek: 'https://www.serval.com/customers/seatgeek',
+  abridge: 'https://www.serval.com/customers/abridge',
+  pricing: 'https://www.serval.com/pricing',
+  roi: 'https://www.serval.com/blog/how-to-quantify-it-automation-roi-and-build-a-business-case-for-it-automation',
+  seriesC: 'https://www.serval.com/blog/we-raised-150m-to-make-everyone-a-builder'
+};
+
+const AREAS = [
+  {
+    id: 'efficiency', name: 'Efficiency', factor: 1,
+    desc: 'Capacity and throughput gains that free up people or time without a direct cost line.',
+    drivers: [
+      {
+        id: 'deflection',
+        uses: ['employees', 'ticketsPerEmp', 'minsPerTicket', 'itRate', 'recapture'],
+        name: 'Tier-One Ticket Deflection',
+        desc: 'Requests that resolve end to end with no human touch, so the agent time they used to consume returns to the IT team.',
+        inputs: [
+          { key: 'rate', label: 'Share of tickets resolved with no human touch', value: 0.50, min: 0.1, max: 0.9, step: 0.01, fmt: 'pct',
+            source: 'Serval guarantees 50% of tickets automated in its pilot. Published results run from 50% at Ramp and Perplexity to above 60% at Mercor.' }
+        ],
+        realization: 1,
+        calc: (g, i) => g.employees * g.ticketsPerEmp * i.rate * (g.minsPerTicket / 60) * g.itRate * g.recapture,
+        evidence: [
+          { c: 'Ramp resolves 50% of IT tickets automatically and is pushing toward 80%', l: 'How Ramp put 10 teams on autopilot', u: S.ramp },
+          { c: 'Perplexity automates over 50% of IT requests, targeting 80 to 90%', l: 'Perplexity Transforms IT Ops with Serval', u: S.perplexity },
+          { c: 'Mercor automates more than 60% of tickets', l: 'From Help Desk to Automation Platform: Serval at Mercor', u: S.mercor },
+          { c: 'SeatGeek went from 0% to 40% automation in three weeks and past 50% in 60 days', l: 'SeatGeek: 7,000 manual tickets to 50% automation', u: S.seatgeek },
+          { c: 'Abridge cleared a two-month ticket backlog in two weeks', l: 'How Abridge moves at the speed of trust', u: S.abridge },
+          { c: 'Serval publishes a 50% automation rate as a pilot guarantee', l: 'Serval pricing', u: S.pricing }
+        ]
+      },
+      {
+        id: 'handletime',
+        uses: ['employees', 'ticketsPerEmp', 'minsPerTicket', 'itRate', 'recapture'],
+        name: 'Handling Time on Escalated Tickets',
+        desc: 'The tickets that still reach a human resolve faster because the agent arrives with context, history and a recommended next step attached.',
+        inputs: [
+          { key: 'reduction', label: 'Reduction in handling time on remaining tickets', value: 0.20, min: 0, max: 0.6, step: 0.01, fmt: 'pct',
+            source: 'Serval ships a co-pilot for escalated tickets that supplies recommended next steps, relevant context and automations. No vendor-published percentage exists, so this is a conservative prospect-adjustable estimate.' }
+        ],
+        realization: 1,
+        calc: (g, i, ctx) => g.employees * g.ticketsPerEmp * (1 - ctx.deflectionRate) * i.reduction * (g.minsPerTicket / 60) * g.itRate * g.recapture,
+        evidence: [
+          { c: 'Serval provides a co-pilot on escalated tickets with recommended next steps and context', l: 'Serval pricing and product overview', u: S.pricing },
+          { c: 'Ramp auto-follows up on tickets untouched for 72 hours and runs bulk replies in a single prompt', l: 'How Ramp put 10 teams on autopilot', u: S.ramp },
+          { c: 'Mean time to resolution is the second metric Serval names for an automation business case', l: 'How to quantify IT automation ROI', u: S.roi }
+        ]
+      },
+      {
+        id: 'buildtime',
+        uses: ['engRate', 'recapture'],
+        name: 'Automation Build and Maintenance Effort',
+        desc: 'Workflows get described in plain language instead of engineered, so each one costs hours of IT engineering time rather than days or weeks.',
+        inputs: [
+          { key: 'count', label: 'Automations built or changed per year', value: 150, min: 10, max: 1500, step: 10, fmt: 'int',
+            source: 'SeatGeek built 132 automations in 8 weeks. Abridge has built more than 300 workflows. 100 per year is well below both.' },
+          { key: 'hoursSaved', label: 'Engineering hours saved per automation', value: 24, min: 2, max: 160, step: 1, fmt: 'int',
+            source: 'Cribl replaced roughly three weeks of outside consultant work with 20 minutes of Serval. 24 hours per automation is a fraction of that single case.' }
+        ],
+        realization: 1,
+        calc: (g, i) => i.count * i.hoursSaved * g.engRate * g.recapture,
+        evidence: [
+          { c: 'Cribl reports more than 7,000 hours and over $600k in labor and engineering effort saved in six months', l: 'How Cribl gave employees the power to automate their own work', u: S.cribl },
+          { c: 'An integration that took outside consultants nearly three weeks was built in 20 minutes', l: 'How Cribl gave employees the power to automate their own work', u: S.cribl },
+          { c: 'Together AI built complex infrastructure authorization workflows in a couple of hours instead of the three months legacy tooling required', l: 'Serval Powers Together AI Just-in-Time Access', u: S.together },
+          { c: 'Ramp rebuilt every automation from its previous system in roughly 48 hours, and builds workflows 50% faster with Catalyst', l: 'How Ramp put 10 teams on autopilot', u: S.ramp },
+          { c: 'SeatGeek built 132 automations in 8 weeks', l: 'SeatGeek: 7,000 manual tickets to 50% automation', u: S.seatgeek },
+          { c: 'Abridge has built more than 300 workflows across 10 teams', l: 'How Abridge moves at the speed of trust', u: S.abridge }
+        ]
+      },
+      {
+        id: 'joinerleaver',
+        uses: ['joinerLeaverEvents', 'itRate', 'recapture'],
+        name: 'Onboarding and Offboarding Automation',
+        desc: 'Account creation, group membership, tool access and device assignment run as one workflow instead of a person working through a list of consoles.',
+        inputs: [
+          { key: 'minsSaved', label: 'IT minutes saved per joiner or leaver event', value: 45, min: 5, max: 240, step: 5, fmt: 'int',
+            source: 'Ramp spent 15 minutes per person on laptop assignment alone. Perplexity described keeping 10 browser tabs open to set up one person. 45 minutes covers a full joiner or leaver sequence.' }
+        ],
+        realization: 1,
+        calc: (g, i) => g.joinerLeaverEvents * (i.minsSaved / 60) * g.itRate * g.recapture,
+        evidence: [
+          { c: 'Ramp replaced 600 laptop replacements at 15 minutes each with an approval click, saving 150 hours', l: 'How Ramp put 10 teams on autopilot', u: S.ramp },
+          { c: 'Perplexity automated all employee onboarding, its top use case, run hundreds of times', l: 'Perplexity Transforms IT Ops with Serval', u: S.perplexity },
+          { c: 'Mercor onboarded more than 4,000 contractors through Serval', l: 'From Help Desk to Automation Platform: Serval at Mercor', u: S.mercor },
+          { c: 'Serval names onboarding and offboarding as core automated journeys', l: 'Serval pricing and product overview', u: S.pricing }
+        ]
+      },
+      {
+        id: 'jit',
+        uses: ['accessRequests', 'itRate', 'recapture'],
+        name: 'Just-in-Time Access Provisioning',
+        desc: 'Access requests are evaluated, approved and granted by policy, and the approver and the IT team drop out of the routine path.',
+        inputs: [
+          { key: 'automated', label: 'Share of access requests automated', value: 0.95, min: 0.2, max: 1, step: 0.01, fmt: 'pct',
+            source: 'Together AI automates 95% of just-in-time access requests and Serval assists with the remaining 5%.' },
+          { key: 'minsSaved', label: 'Combined IT and approver minutes saved per request', value: 12, min: 2, max: 60, step: 1, fmt: 'int',
+            source: 'Prospect-adjustable. Covers the requester lookup, the approver decision and the manual provisioning step that Serval removes.' }
+        ],
+        realization: 1,
+        calc: (g, i) => g.accessRequests * i.automated * (i.minsSaved / 60) * g.itRate * g.recapture,
+        evidence: [
+          { c: 'Together AI automates 95% of just-in-time access requests', l: 'Serval Powers Together AI Just-in-Time Access', u: S.together },
+          { c: 'Perplexity uses Serval to enforce least privilege, granting minimum access for the necessary duration', l: 'Perplexity Transforms IT Ops with Serval', u: S.perplexity },
+          { c: 'Mercor moved database access requests from manual DBA checks to self-service with approval workflows', l: 'From Help Desk to Automation Platform: Serval at Mercor', u: S.mercor },
+          { c: 'SeatGeek provisioned 406 Claude licenses with zero human touch', l: 'SeatGeek: 7,000 manual tickets to 50% automation', u: S.seatgeek }
+        ]
+      },
+      {
+        id: 'waittime',
+        uses: ['employees', 'ticketsPerEmp', 'empRate', 'recapture'],
+        name: 'Employee Time Lost Waiting on IT',
+        desc: 'The person who filed the request stops waiting. Instant resolution returns the blocked working time that sat behind the queue.',
+        inputs: [
+          { key: 'hoursBlocked', label: 'Productive hours blocked per deflected ticket', value: 0.5, min: 0.1, max: 4, step: 0.1, fmt: 'num',
+            source: 'Prospect-adjustable and deliberately narrow. This counts productive time actually blocked, not elapsed wall-clock time in the queue.' }
+        ],
+        realization: 0.5,
+        realizationNote: 'Defaulted to 50%. Employee productivity is the first line a CFO discounts, so the model takes that discount up front rather than letting the review take it.',
+        calc: (g, i, ctx) => g.employees * g.ticketsPerEmp * ctx.deflectionRate * i.hoursBlocked * g.empRate * g.recapture,
+        evidence: [
+          { c: 'Abridge had tickets running two months old and employees had stopped expecting a response', l: 'How Abridge moves at the speed of trust', u: S.abridge },
+          { c: 'Mercor gained 24/7 global support coverage across time zones with a small team', l: 'From Help Desk to Automation Platform: Serval at Mercor', u: S.mercor },
+          { c: 'Perplexity new hires found Serval was the fastest route to getting help', l: 'Perplexity Transforms IT Ops with Serval', u: S.perplexity },
+          { c: 'Together AI saved days, not minutes or hours, of waiting through automatic provisioning', l: 'Serval Powers Together AI Just-in-Time Access', u: S.together }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'cost', name: 'Cost Reduction', factor: 1,
+    desc: 'Direct dollar savings on existing spend.',
+    drivers: [
+      {
+        id: 'itsmretire',
+        uses: [],
+        name: 'Incumbent ITSM Platform Retirement',
+        desc: 'Serval becomes the system of record rather than a layer on top, and the incumbent contract comes off the invoice.',
+        inputs: [
+          { key: 'acv', label: 'Incumbent ITSM annual contract value', value: 900000, min: 0, max: 12000000, step: 25000, fmt: 'usd',
+            source: 'Prospect-supplied. The displaced platforms named in Serval customer stories are ServiceNow, Jira Service Management, Freshservice, Zendesk and Linear.' },
+          { key: 'share', label: 'Share of that contract actually retired', value: 1.0, min: 0, max: 1, step: 0.05, fmt: 'pct',
+            source: 'Set below 100% where the incumbent stays in place for adjacent modules. Serval supports bi-directional sync so the cutover can be staged.' }
+        ],
+        realization: 1,
+        calc: (g, i) => i.acv * i.share,
+        evidence: [
+          { c: 'Serval positions itself as full-stack ITSM built to replace ServiceNow, Jira Service Management and Freshservice', l: 'Serval home', u: 'https://www.serval.com/' },
+          { c: 'Serval CEO says customers are replacing incumbent systems of record rather than layering on top', l: 'Forbes, August 2026', u: 'https://www.forbes.com/sites/victordey/2026/08/20/serval-wants-to-replace-servicenow-with-ai-that-builds-enterprise-automation/' },
+          { c: 'Perplexity moved off Freshservice, which offered limited automation', l: 'Perplexity Transforms IT Ops with Serval', u: S.perplexity },
+          { c: 'Together AI moved off Linear and evaluated Zendesk and Freshservice before choosing Serval', l: 'Serval Powers Together AI Just-in-Time Access', u: S.together },
+          { c: 'Serval supports bi-directional sync with major ITSMs so the system of record can be cut over later', l: 'Serval home', u: 'https://www.serval.com/' },
+          { c: 'An automotive manufacturer replaced ServiceNow with Serval in 45 days', l: 'Serval Series C announcement, October 2026', u: S.seriesC },
+          { c: 'Two Fortune 20 companies onboarded in the six months to October 2026; named enterprise customers include Fox Corporation, WPP and Live Nation', l: 'Serval Series C announcement, October 2026', u: S.seriesC }
+        ]
+      },
+      {
+        id: 'implementation',
+        uses: [],
+        name: 'Avoided Implementation and Consultant Spend',
+        desc: 'Integrations and workflows that legacy platforms price as a professional services engagement are built in the product instead.',
+        inputs: [
+          { key: 'oneTime', label: 'Avoided one-time implementation and consultant spend', value: 500000, min: 0, max: 8000000, step: 25000, fmt: 'usd',
+            source: 'Prospect-supplied. Cribl had just completed a months-long, expensive ITSM implementation requiring outside consultants to build integrations.' },
+          { key: 'years', label: 'Years to amortize that avoided spend over', value: 3, min: 1, max: 5, step: 1, fmt: 'int',
+            source: 'Amortized across the model horizon so a one-time avoidance does not overstate the annual run rate.' }
+        ],
+        realization: 1,
+        calc: (g, i) => i.oneTime / i.years,
+        evidence: [
+          { c: 'Cribl describes its prior ITSM implementation as months-long and expensive, requiring outside consultants', l: 'How Cribl gave employees the power to automate their own work', u: S.cribl },
+          { c: 'Serval built in 20 minutes an integration that took consultants nearly three weeks', l: 'How Cribl gave employees the power to automate their own work', u: S.cribl },
+          { c: 'Serval shipped Abridge a custom integration in a day and a half that would have taken months in a legacy system', l: 'How Abridge moves at the speed of trust', u: S.abridge },
+          { c: 'Serval pilots include a dedicated deployed engineering team at no separate services line', l: 'Serval pricing', u: S.pricing },
+          { c: 'Serval is standing up ProServal, a services arm with more than 100 Automation Engineers, rather than routing implementation to third-party consultancies', l: 'Serval Series C announcement, October 2026', u: S.seriesC }
+        ]
+      },
+      {
+        id: 'headcount',
+        uses: ['itFteCost'],
+        name: 'Avoided IT Support Headcount',
+        desc: 'Ticket volume grows with the business while the IT team does not, so the next support hire is deferred rather than made.',
+        inputs: [
+          { key: 'ftes', label: 'IT FTE hires avoided per year', value: 2.5, min: 0, max: 40, step: 0.5, fmt: 'num',
+            source: 'Prospect-supplied. Perplexity tripled headcount and Together AI more than doubled, both without scaling their IT teams. Abridge supported 500+ employees with two IT engineers.' }
+        ],
+        realization: 0.5,
+        realizationNote: 'Held at 50% on purpose. The deflection and handling-time drivers already count the capacity this headcount would have supplied, so taking both at full value would count the same hours twice.',
+        calc: (g, i) => i.ftes * g.itFteCost,
+        evidence: [
+          { c: 'Perplexity scaled 3x in employee count and kept up with IT demand on a small team', l: 'Perplexity Transforms IT Ops with Serval', u: S.perplexity },
+          { c: 'Together AI more than doubled in size since adopting Serval with a lean IT and security team', l: 'Serval Powers Together AI Just-in-Time Access', u: S.together },
+          { c: 'Abridge supported more than 500 employees with two IT engineers', l: 'How Abridge moves at the speed of trust', u: S.abridge },
+          { c: 'Cribl runs its IT engineering function with a three-person team', l: 'How Cribl gave employees the power to automate their own work', u: S.cribl }
+        ]
+      },
+      {
+        id: 'licenses',
+        uses: [],
+        name: 'Reclaimed SaaS Licenses on Offboarding',
+        desc: 'Automated deprovisioning returns seats on the day someone leaves instead of at the next license true-up.',
+        inputs: [
+          { key: 'leavers', label: 'Departures per year', value: 1000, min: 25, max: 20000, step: 25, fmt: 'int',
+            source: 'Prospect-supplied. Defaults to a subset of the joiner and leaver events in the global assumptions.' },
+          { key: 'saasPerEmp', label: 'SaaS spend per employee per year', value: 1400, min: 200, max: 8000, step: 100, fmt: 'usd',
+            source: 'Prospect-supplied. Serval reclaims the seats it can see through its own integrations and asset records.' },
+          { key: 'monthsSaved', label: 'Months of reclaim lag removed', value: 2, min: 0, max: 12, step: 0.5, fmt: 'num',
+            source: 'Prospect-adjustable. Only the lag between departure and manual reclaim is counted, not the full annual seat cost.' }
+        ],
+        realization: 1,
+        calc: (g, i) => i.leavers * i.saasPerEmp * (i.monthsSaved / 12),
+        evidence: [
+          { c: 'Together AI notes Serval deprovisions automatically rather than depending on a host to remember', l: 'Serval Powers Together AI Just-in-Time Access', u: S.together },
+          { c: 'Ramp uses Serval for hardware and software asset records alongside offboarding', l: 'How Ramp put 10 teams on autopilot', u: S.ramp },
+          { c: 'Serval ships hardware asset management, software asset management and a CMDB', l: 'Serval home', u: 'https://www.serval.com/' },
+          { c: 'SeatGeek expects to measure IT on dollars saved on SaaS elimination', l: 'SeatGeek: 7,000 manual tickets to 50% automation', u: S.seatgeek }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'risk', name: 'Risk Reduction', factor: 1,
+    desc: 'Loss avoidance and reduced exposure.',
+    drivers: [
+      {
+        id: 'standingaccess',
+        uses: [],
+        name: 'Standing Access and Deprovisioning Exposure',
+        desc: 'Time-bound access that expires on its own removes the standing permissions that turn a single compromised account into an incident.',
+        inputs: [
+          { key: 'expected', label: 'Expected annual cost of access-related incidents', value: 1200000, min: 0, max: 40000000, step: 50000, fmt: 'usd',
+            source: 'Prospect-supplied. This is the one input a security team should replace with its own loss model before the case is presented.' },
+          { key: 'reduction', label: 'Exposure reduction from JIT access and auto-deprovisioning', value: 0.20, min: 0, max: 0.6, step: 0.01, fmt: 'pct',
+            source: 'Prospect-adjustable. Serval publishes no incident-reduction figure, so this is held deliberately low.' }
+        ],
+        realization: 1,
+        calc: (g, i) => i.expected * i.reduction,
+        evidence: [
+          { c: 'Together AI credits automatic deprovisioning with improving security and compliance', l: 'Serval Powers Together AI Just-in-Time Access', u: S.together },
+          { c: 'Perplexity security calls Serval an extension of the security team for enforcing least privilege', l: 'Perplexity Transforms IT Ops with Serval', u: S.perplexity },
+          { c: 'Serval executes actions only through deterministic workflows an admin has approved and published', l: 'Serval home', u: 'https://www.serval.com/' },
+          { c: 'Abridge CISO was convinced by the two-agent architecture, which keeps actions deterministic and auditable', l: 'How Abridge moves at the speed of trust', u: S.abridge }
+        ]
+      },
+      {
+        id: 'shadowit',
+        uses: [],
+        name: 'Shadow IT and Ungoverned AI Adoption',
+        desc: 'When access takes days, people route around IT. Same-day provisioning keeps new AI tools inside the approved, logged path.',
+        inputs: [
+          { key: 'expected', label: 'Expected annual cost of shadow IT and ungoverned AI exposure', value: 600000, min: 0, max: 20000000, step: 50000, fmt: 'usd',
+            source: 'Prospect-supplied. Covers data handled in unsanctioned tools, unreviewed vendors and duplicate unmanaged spend.' },
+          { key: 'reduction', label: 'Exposure reduction from same-day governed provisioning', value: 0.25, min: 0, max: 0.6, step: 0.01, fmt: 'pct',
+            source: 'Prospect-adjustable. Anchored on SeatGeek, where the governed path absorbed an entire AI rollout without a queue forming.' }
+        ],
+        realization: 1,
+        calc: (g, i) => i.expected * i.reduction,
+        evidence: [
+          { c: 'SeatGeek saw 300 requests on day one of a company-wide AI rollout and 60% of the company file a ticket by day three', l: 'SeatGeek: 7,000 manual tickets to 50% automation', u: S.seatgeek },
+          { c: 'SeatGeek framed the alternatives as IT becoming a bottleneck or shadow IT proliferating', l: 'SeatGeek: 7,000 manual tickets to 50% automation', u: S.seatgeek },
+          { c: 'The next AI rollout provisioned 406 licenses with zero human touch and no queue', l: 'SeatGeek: 7,000 manual tickets to 50% automation', u: S.seatgeek },
+          { c: 'Serval restricts actions to admin-approved deterministic workflows with strict controls and validation', l: 'Serval home', u: 'https://www.serval.com/' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'compliance', name: 'Compliance & Governance', factor: 1,
+    desc: 'Regulatory, audit, and policy adherence.',
+    drivers: [
+      {
+        id: 'audit',
+        uses: ['itRate', 'recapture'],
+        name: 'Audit Evidence and User Access Reviews',
+        desc: 'Every request carries its approval, justification and duration, so the access review becomes a query instead of a collection exercise.',
+        inputs: [
+          { key: 'cycles', label: 'Audit and access review cycles per year', value: 4, min: 1, max: 12, step: 1, fmt: 'int',
+            source: 'Prospect-supplied. Quarterly is typical for SOC 2 and ISO 27001 user access reviews.' },
+          { key: 'hours', label: 'Evidence-gathering hours saved per cycle', value: 240, min: 10, max: 2000, step: 10, fmt: 'int',
+            source: 'Prospect-adjustable. Together AI describes Serval as a single source of truth for approval, review and audit, holding each request with its duration and business justification.' }
+        ],
+        realization: 1,
+        calc: (g, i) => i.cycles * i.hours * g.itRate * g.recapture,
+        evidence: [
+          { c: 'Together AI tracks each request with duration and business justification as a single source of truth for audit', l: 'Serval Powers Together AI Just-in-Time Access', u: S.together },
+          { c: 'Together AI security sees Serval as a tool for user access reviews, not only a core ITSM', l: 'Serval Powers Together AI Just-in-Time Access', u: S.together },
+          { c: 'Mercor cites end-to-end platform auditability as the security benefit', l: 'From Help Desk to Automation Platform: Serval at Mercor', u: S.mercor },
+          { c: 'Serval workflows carry version and run history and are reviewed before publication', l: 'How Abridge moves at the speed of trust', u: S.abridge },
+          { c: 'Serval ships user access reviews as a product capability', l: 'Serval pricing', u: S.pricing }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'growth', name: 'Growth', factor: 1,
+    desc: 'Revenue growth and other top-line enablement.',
+    drivers: [
+      {
+        id: 'airollout',
+        uses: ['employees'],
+        name: 'Faster Governed Rollout of AI Tooling',
+        desc: 'Licence provisioning stops being the constraint on an AI rollout, so more of the workforce is actually using the tools the company has paid for.',
+        inputs: [
+          { key: 'share', label: 'Incremental share of employees enabled on AI tooling', value: 0.03, min: 0, max: 0.25, step: 0.005, fmt: 'pct',
+            source: 'Prospect-adjustable. Counts only the incremental adoption attributable to removing the provisioning queue, not total adoption.' },
+          { key: 'valuePerUser', label: 'Annual productivity value per enabled user', value: 2000, min: 250, max: 15000, step: 250, fmt: 'usd',
+            source: 'Prospect-supplied. Should be replaced with the customer own measured value per seat where one exists.' }
+        ],
+        realization: 0.5,
+        realizationNote: 'Defaulted to 50%. Attributing adoption gains to the removal of a provisioning queue is the softest claim in the model and is held back accordingly.',
+        calc: (g, i) => g.employees * i.share * i.valuePerUser,
+        evidence: [
+          { c: 'SeatGeek provisioned 406 AI licences with zero human touch after automating the request', l: 'SeatGeek: 7,000 manual tickets to 50% automation', u: S.seatgeek },
+          { c: 'An earlier ungoverned AI rollout at SeatGeek nearly broke the help desk', l: 'SeatGeek: 7,000 manual tickets to 50% automation', u: S.seatgeek },
+          { c: 'Perplexity uses Serval to grant tool access as a one-stop shop across its integrated tools', l: 'Perplexity Transforms IT Ops with Serval', u: S.perplexity }
+        ]
+      },
+      {
+        id: 'redeploy',
+        uses: [],
+        name: 'IT Capacity Redeployed to Revenue Work',
+        desc: 'Evidence is cited and the dollar value is left open. What the freed engineers build is specific to the business, and the customer should put the number on it.',
+        inputs: [],
+        realization: 1,
+        pending: true,
+        calc: () => 0,
+        evidence: [
+          { c: 'SeatGeek is redeploying IT engineers as embedded forward deployed engineers inside business units', l: 'SeatGeek: 7,000 manual tickets to 50% automation', u: S.seatgeek },
+          { c: 'SeatGeek expects to measure IT on revenue generation, days saved during accounting close and SaaS elimination', l: 'SeatGeek: 7,000 manual tickets to 50% automation', u: S.seatgeek },
+          { c: 'Perplexity redirected freed time to office expansion, new integrations and replacing other systems', l: 'Perplexity Transforms IT Ops with Serval', u: S.perplexity },
+          { c: 'Ramp extended Serval to roughly 10 teams including Finance, Legal, Facilities and Biz Ops', l: 'How Ramp put 10 teams on autopilot', u: S.ramp },
+          { c: 'Abridge has 10 teams set up on Serval', l: 'How Abridge moves at the speed of trust', u: S.abridge }
+        ]
+      }
+    ]
+  }
+];
+
+function compute(g, areas, scenario) {
+  const deflectionArea = areas.find(a => a.id === 'efficiency');
+  const defDriver = deflectionArea.drivers.find(d => d.id === 'deflection');
+  const ctx = { deflectionRate: defDriver.inputs[0].value };
+
+  let total = 0;
+  const areaTotals = {};
+  for (const a of areas) {
+    let at = 0;
+    for (const d of a.drivers) {
+      const iv = {};
+      d.inputs.forEach(x => { iv[x.key] = x.value; });
+      const raw = d.calc(g, iv, ctx);
+      d._value = (a.enabled === false || d.enabled === false) ? 0 : raw * d.realization * a.factor * scenario;
+      at += d._value;
+    }
+    areaTotals[a.id] = at;
+    total += at;
+  }
+
+  // Year 1 ramps linearly to full run rate over 6 months.
+  const rampMonths = 6;
+  let y1Factor = 0;
+  for (let m = 1; m <= 12; m++) y1Factor += Math.min(m / rampMonths, 1);
+  y1Factor /= 12;
+
+  const y1 = total * y1Factor;
+  const annualCost = g.platformFee;
+  const flows = [y1 - annualCost, total - annualCost, total - annualCost];
+  let npv = -g.oneTimeCost;
+  flows.forEach((f, idx) => { npv += f / Math.pow(1 + g.wacc, idx + 1); });
+
+  const tco = annualCost * 3 + g.oneTimeCost;
+  const threeYearValue = y1 + total * 2;
+  const roi = tco > 0 ? (threeYearValue - tco) / tco : 0;
+
+  // Payback: first month where cumulative value exceeds cumulative cost.
+  const monthlyFull = total / 12;
+  const monthlyCost = annualCost / 12;
+  let cumV = 0, payback = null;
+  for (let m = 1; m <= 120; m++) {
+    const prevV = cumV;
+    cumV += monthlyFull * Math.min(m / rampMonths, 1);
+    const prevC = g.oneTimeCost + monthlyCost * (m - 1);
+    const cumC = g.oneTimeCost + monthlyCost * m;
+    if (cumV >= cumC) {
+      const gapStart = prevC - prevV;
+      const gapEnd = cumC - cumV;
+      payback = (m - 1) + (gapStart / (gapStart - gapEnd));
+      break;
+    }
+  }
+  return { total, areaTotals, npv, roi, tco, payback, y1, threeYearValue };
+}
+
+/* Derivation traces. Each step renders two lines, as in the source model:
+   line 1 = name = symbolic expression, line 2 = the same expression with values substituted. */
+const TRACE = {
+  deflection: (g, i) => {
+    const t = g.employees * g.ticketsPerEmp, d = t * i.rate, h = d * (g.minsPerTicket / 60);
+    return [
+      { v: 'annual_tickets', e: 'employees * tickets_per_employee_per_year', s: n(g.employees) + ' * ' + n(g.ticketsPerEmp) + ' = ' + n(t) },
+      { v: 'deflected_tickets', e: 'annual_tickets * share_resolved_with_no_human_touch', s: n(t) + ' * ' + p(i.rate) + ' = ' + n(d) },
+      { v: 'agent_hours_returned', e: 'deflected_tickets * (agent_minutes_per_ticket / 60)', s: n(d) + ' * (' + n(g.minsPerTicket) + ' / 60) = ' + n(h) },
+      { v: 'annual_value', out: 1, e: 'agent_hours_returned * it_hourly_rate * productivity_recapture', s: n(h) + ' * ' + m(g.itRate) + ' * ' + p(g.recapture) }
+    ];
+  },
+  handletime: (g, i, c) => {
+    const t = g.employees * g.ticketsPerEmp, x = t * (1 - c.deflectionRate), h = x * i.reduction * (g.minsPerTicket / 60);
+    return [
+      { v: 'escalated_tickets', e: 'annual_tickets * (1 - share_resolved_with_no_human_touch)', s: n(t) + ' * (1 - ' + p(c.deflectionRate) + ') = ' + n(x) },
+      { v: 'hours_saved', e: 'escalated_tickets * reduction_in_handling_time * (agent_minutes_per_ticket / 60)', s: n(x) + ' * ' + p(i.reduction) + ' * (' + n(g.minsPerTicket) + ' / 60) = ' + n(h) },
+      { v: 'annual_value', out: 1, e: 'hours_saved * it_hourly_rate * productivity_recapture', s: n(h) + ' * ' + m(g.itRate) + ' * ' + p(g.recapture) }
+    ];
+  },
+  buildtime: (g, i) => {
+    const h = i.count * i.hoursSaved;
+    return [
+      { v: 'engineering_hours_saved', e: 'automations_per_year * hours_saved_per_automation', s: n(i.count) + ' * ' + n(i.hoursSaved) + ' = ' + n(h) },
+      { v: 'annual_value', out: 1, e: 'engineering_hours_saved * it_engineering_hourly_rate * productivity_recapture', s: n(h) + ' * ' + m(g.engRate) + ' * ' + p(g.recapture) }
+    ];
+  },
+  joinerleaver: (g, i) => {
+    const h = g.joinerLeaverEvents * (i.minsSaved / 60);
+    return [
+      { v: 'it_hours_saved', e: 'joiner_leaver_events_per_year * (minutes_saved_per_event / 60)', s: n(g.joinerLeaverEvents) + ' * (' + n(i.minsSaved) + ' / 60) = ' + n(h) },
+      { v: 'annual_value', out: 1, e: 'it_hours_saved * it_hourly_rate * productivity_recapture', s: n(h) + ' * ' + m(g.itRate) + ' * ' + p(g.recapture) }
+    ];
+  },
+  jit: (g, i) => {
+    const a = g.accessRequests * i.automated, h = a * (i.minsSaved / 60);
+    return [
+      { v: 'automated_requests', e: 'access_requests_per_year * share_automated', s: n(g.accessRequests) + ' * ' + p(i.automated) + ' = ' + n(a) },
+      { v: 'hours_saved', e: 'automated_requests * (minutes_saved_per_request / 60)', s: n(a) + ' * (' + n(i.minsSaved) + ' / 60) = ' + n(h) },
+      { v: 'annual_value', out: 1, e: 'hours_saved * it_hourly_rate * productivity_recapture', s: n(h) + ' * ' + m(g.itRate) + ' * ' + p(g.recapture) }
+    ];
+  },
+  waittime: (g, i, c) => {
+    const t = g.employees * g.ticketsPerEmp, d = t * c.deflectionRate, h = d * i.hoursBlocked;
+    return [
+      { v: 'deflected_tickets', e: 'annual_tickets * share_resolved_with_no_human_touch', s: n(t) + ' * ' + p(c.deflectionRate) + ' = ' + n(d) },
+      { v: 'employee_hours_returned', e: 'deflected_tickets * productive_hours_blocked_per_ticket', s: n(d) + ' * ' + n2(i.hoursBlocked) + ' = ' + n(h) },
+      { v: 'annual_value', out: 1, e: 'employee_hours_returned * employee_hourly_rate * productivity_recapture', s: n(h) + ' * ' + m(g.empRate) + ' * ' + p(g.recapture) }
+    ];
+  },
+  itsmretire: (g, i) => [
+    { v: 'annual_value', out: 1, e: 'incumbent_itsm_annual_contract_value * share_retired', s: m(i.acv) + ' * ' + p(i.share) }
+  ],
+  implementation: (g, i) => [
+    { v: 'annual_value', out: 1, e: 'avoided_one_time_spend / amortization_years', s: m(i.oneTime) + ' / ' + n(i.years) }
+  ],
+  headcount: (g, i) => [
+    { v: 'gross_value', e: 'it_ftes_avoided * fully_loaded_annual_cost_per_it_fte', s: n2(i.ftes) + ' * ' + m(g.itFteCost) + ' = ' + m(i.ftes * g.itFteCost) },
+    { v: 'annual_value', out: 1, e: 'gross_value, then held at the realization factor so this capacity is not counted twice against Efficiency', s: m(i.ftes * g.itFteCost) + ' at the realization factor set on the card' }
+  ],
+  licenses: (g, i) => [
+    { v: 'annual_value', out: 1, e: 'departures_per_year * saas_spend_per_employee * (months_of_lag_removed / 12)', s: n(i.leavers) + ' * ' + m(i.saasPerEmp) + ' * (' + n2(i.monthsSaved) + ' / 12)' }
+  ],
+  standingaccess: (g, i) => [
+    { v: 'annual_value', out: 1, e: 'expected_annual_cost_of_access_incidents * exposure_reduction', s: m(i.expected) + ' * ' + p(i.reduction) }
+  ],
+  shadowit: (g, i) => [
+    { v: 'annual_value', out: 1, e: 'expected_annual_cost_of_shadow_it_exposure * exposure_reduction', s: m(i.expected) + ' * ' + p(i.reduction) }
+  ],
+  audit: (g, i) => {
+    const h = i.cycles * i.hours;
+    return [
+      { v: 'hours_saved', e: 'review_cycles_per_year * evidence_hours_saved_per_cycle', s: n(i.cycles) + ' * ' + n(i.hours) + ' = ' + n(h) },
+      { v: 'annual_value', out: 1, e: 'hours_saved * it_hourly_rate * productivity_recapture', s: n(h) + ' * ' + m(g.itRate) + ' * ' + p(g.recapture) }
+    ];
+  },
+  airollout: (g, i) => {
+    const u = g.employees * i.share;
+    return [
+      { v: 'incremental_users', e: 'employees * incremental_share_enabled', s: n(g.employees) + ' * ' + p(i.share) + ' = ' + n(u) },
+      { v: 'annual_value', out: 1, e: 'incremental_users * annual_productivity_value_per_user', s: n(u) + ' * ' + m(i.valuePerUser) }
+    ];
+  },
+  redeploy: () => [
+    { v: 'annual_value', out: 1, e: 'pending prospect input', s: 'zero until the customer puts a number on the work its freed IT capacity will take on' }
+  ]
+};
+
+const G = {};
+GLOBALS.forEach(x => { G[x.key] = x.value; });
+AREAS.forEach(a => { a.enabled = true; a.open = false; a.drivers.forEach(d => { d.enabled = true; }); });
+let SCENARIO = 1;
+
+const fmt = (v, f) => {
+  if (f === 'pct') return Math.round(v * 1000) / 10 + '%';
+  if (f === 'usd') return m(v);
+  if (f === 'int') return n(v);
+  return n2(v);
+};
+const el = (t, c, txt) => { const e = document.createElement(t); if (c) e.className = c; if (txt !== undefined) e.textContent = txt; return e; };
+
+/* Ramp colors, matching the source model's color-mix walk from ramp-dark to ramp-light. */
+function rampColor(i, total) {
+  if (total <= 1) return 'var(--ramp-dark)';
+  const pct = 100 - (i / (total - 1)) * 100;
+  return 'color-mix(in srgb, var(--ramp-dark) ' + pct + '%, var(--ramp-light))';
+}
+function rampText(i, total) {
+  if (total <= 1) return 'var(--ramp-text-on-dark)';
+  return (100 - (i / (total - 1)) * 100) >= 55 ? 'var(--ramp-text-on-dark)' : 'var(--ramp-text-on-light)';
+}
+
+function basisLine() {
+  return 'Modeled on a ' + n(G.employees) + '-employee organization, ' + n(G.employees * G.ticketsPerEmp) +
+    ' support tickets a year, ' + m(G.itRate) + '/hr fully burdened IT, ' +
+    Math.round(G.recapture * 100) + '% productivity recapture on saved time, and a ' + m(G.platformFee) +
+    ' annual platform fee (Serval publishes no pricing).';
+}
+
+function slider(value, onChange) {
+  const r = document.createElement('input');
+  r.type = 'range'; r.min = 0; r.max = 100; r.step = 5; r.value = Math.round(value * 100);
+  r.style.setProperty('--fill', r.value + '%');
+  r.addEventListener('input', () => {
+    r.style.setProperty('--fill', r.value + '%');
+    onChange(parseFloat(r.value) / 100);
+  });
+  return r;
+}
+function checkbox(checked, onChange) {
+  const w = el('label', 'cb-wrap');
+  const c = document.createElement('input');
+  c.type = 'checkbox'; c.checked = checked;
+  c.addEventListener('change', () => onChange(c.checked));
+  w.appendChild(c);
+  return w;
+}
+function chevron() {
+  const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  s.setAttribute('viewBox', '0 0 20 20'); s.setAttribute('fill', 'none');
+  s.setAttribute('aria-hidden', 'true'); s.setAttribute('class', 'chev');
+  const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  p.setAttribute('d', 'M7 4l6 6-6 6'); p.setAttribute('stroke', 'currentColor');
+  p.setAttribute('stroke-width', '2'); p.setAttribute('stroke-linecap', 'round'); p.setAttribute('stroke-linejoin', 'round');
+  s.appendChild(p);
+  return s;
+}
+
+/* ---------- Driver card ---------- */
+function driverCard(a, d) {
+  const card = el('div', 'driver' + (d.enabled ? '' : ' off'));
+  card.id = 'card-' + a.id + '-' + d.id;
+
+  const top = el('div', 'd-top');
+  top.appendChild(checkbox(d.enabled, v => { d.enabled = v; card.classList.toggle('off', !v); recalc(); }));
+  const titles = el('div'); titles.style.minWidth = '0';
+  titles.appendChild(el('p', 'd-title', d.name));
+  titles.appendChild(el('p', 'd-lead', d.desc));
+  top.appendChild(titles);
+  card.appendChild(top);
+
+  if (d.pending) card.appendChild(el('p', 'd-pending', 'Pending prospect input. The evidence is cited, the dollar value is yours to set.'));
+
+  if (d.inputs.length) {
+    const grid = el('div', 'd-inputs');
+    d.inputs.forEach(i => {
+      const w = el('div', 'inp');
+      w.appendChild(el('p', 'l', i.label));
+      w.appendChild(el('p', 'v', fmt(i.value, i.fmt)));
+      grid.appendChild(w);
+    });
+    card.appendChild(grid);
+  }
+
+  const ctl = el('div', 'd-ctl');
+  const r1 = el('div', 'd-row');
+  r1.appendChild(el('span', null, 'Realization Factor'));
+  const pct = el('span', 'pct', Math.round(d.realization * 100) + '%');
+  r1.appendChild(pct);
+  ctl.appendChild(r1);
+  const sl = el('div'); sl.style.marginTop = '4px';
+  sl.appendChild(slider(d.realization, v => { d.realization = v; pct.textContent = Math.round(v * 100) + '%'; recalc(); }));
+  ctl.appendChild(sl);
+  const r2 = el('div', 'd-row v2');
+  r2.appendChild(el('span', null, 'Annual contribution'));
+  const amt = el('span', 'amt'); amt.id = 'dv-' + a.id + '-' + d.id;
+  r2.appendChild(amt);
+  ctl.appendChild(r2);
+  card.appendChild(ctl);
+
+  if (d.realizationNote) card.appendChild(el('p', 'd-note', d.realizationNote));
+
+  const btn = el('button', 'd-inspect', 'Inspect Logic & Evidence');
+  btn.type = 'button';
+  btn.addEventListener('click', () => openModal(d));
+  card.appendChild(btn);
+
+  return card;
+}
+
+/* ---------- Areas ---------- */
+function renderAreas() {
+  const host = document.getElementById('areas');
+  host.innerHTML = '';
+  const r = compute(G, AREAS, SCENARIO);
+  const ordered = AREAS.slice().sort((x, y) => r.areaTotals[y.id] - r.areaTotals[x.id]);
+
+  ordered.forEach(a => {
+    const card = el('div', 'area' + (a.open ? ' open' : '') + (a.enabled ? '' : ' off'));
+    card.dataset.area = a.id;
+
+    const head = el('div', 'area-head');
+    const cbw = el('div'); cbw.style.paddingTop = '2px';
+    cbw.appendChild(checkbox(a.enabled, v => { a.enabled = v; card.classList.toggle('off', !v); recalc(); }));
+    head.appendChild(cbw);
+
+    const tog = el('button', 'area-toggle');
+    tog.type = 'button';
+    tog.setAttribute('aria-expanded', a.open ? 'true' : 'false');
+    tog.appendChild(chevron());
+    tog.appendChild(el('span', null, a.name));
+    tog.addEventListener('click', () => {
+      a.open = !a.open;
+      card.classList.toggle('open', a.open);
+      tog.setAttribute('aria-expanded', a.open ? 'true' : 'false');
+    });
+    head.appendChild(tog);
+
+    const right = el('div', 'area-right');
+    const tw = el('div'); tw.style.textAlign = 'right';
+    const tv = el('span', 'area-total'); tv.id = 'at-' + a.id;
+    tw.appendChild(tv);
+    const pend = el('p', 'area-pending', 'Pending prospect input');
+    pend.id = 'ap-' + a.id; pend.hidden = true;
+    tw.appendChild(pend);
+    right.appendChild(tw);
+
+    const af = el('div', 'area-factor');
+    af.appendChild(el('span', null, 'Area Factor'));
+    const track = el('div', 'track');
+    const afv = el('span', 'num', Math.round(a.factor * 100) + '%');
+    track.appendChild(slider(a.factor, v => { a.factor = v; afv.textContent = Math.round(v * 100) + '%'; recalc(); }));
+    af.appendChild(track);
+    af.appendChild(afv);
+    right.appendChild(af);
+    head.appendChild(right);
+    card.appendChild(head);
+
+    const collapse = el('div', 'collapse');
+    const inner = el('div');
+    const body = el('div', 'area-body');
+    body.appendChild(document.createElement('hr'));
+    body.appendChild(el('p', 'area-desc', a.desc));
+    const grid = el('div', 'driver-grid');
+    a.drivers.slice()
+      .sort((x, y) => (y._value || 0) - (x._value || 0))
+      .forEach(d => grid.appendChild(driverCard(a, d)));
+    body.appendChild(grid);
+    inner.appendChild(body);
+    collapse.appendChild(inner);
+    card.appendChild(collapse);
+
+    host.appendChild(card);
+  });
+}
+
+/* ---------- Evidence modal ---------- */
+const overlay = document.getElementById('overlay');
+document.getElementById('m-close').addEventListener('click', () => overlay.classList.remove('open'));
+overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') overlay.classList.remove('open'); });
+
+function openModal(d) {
+  document.getElementById('m-title').textContent = d.name + ' - Logic & Evidence';
+  const b = document.getElementById('m-body');
+  b.innerHTML = '';
+  if (d.desc) b.appendChild(el('p', 'm-desc', d.desc));
+
+  if (d.inputs.length) {
+    b.appendChild(el('h4', 'm-sec first', 'Inputs'));
+    const grid = el('div', 'm-grid');
+    d.inputs.forEach(i => {
+      const w = el('div', 'inp');
+      w.appendChild(el('p', 'l', i.label));
+      w.appendChild(el('p', 'v', fmt(i.value, i.fmt)));
+      w.appendChild(el('p', 's', i.source));
+      grid.appendChild(w);
+    });
+    b.appendChild(grid);
+  }
+
+  const used = (d.uses || []).map(k => GLOBALS.find(x => x.key === k)).filter(Boolean);
+  if (used.length) {
+    b.appendChild(el('h4', 'm-sec' + (d.inputs.length ? '' : ' first'), 'Company baseline'));
+    b.appendChild(el('p', 'm-subnote', 'Shared across drivers. Set once per prospect.'));
+    const grid = el('div', 'm-grid');
+    used.forEach(gd => {
+      const w = el('div', 'inp');
+      w.appendChild(el('p', 'l', gd.label));
+      w.appendChild(el('p', 'v', fmt(G[gd.key], gd.fmt)));
+      grid.appendChild(w);
+    });
+    b.appendChild(grid);
+  }
+
+  b.appendChild(el('h4', 'm-sec', 'Derivation steps'));
+  const iv = {};
+  d.inputs.forEach(x => { iv[x.key] = x.value; });
+  const ctx = { deflectionRate: AREAS[0].drivers[0].inputs[0].value };
+  const ol = el('ol', 'steps');
+  (TRACE[d.id] ? TRACE[d.id](G, iv, ctx) : []).forEach(st => {
+    const li = document.createElement('li');
+    const l1 = el('div');
+    l1.appendChild(el('span', 'nm' + (st.out ? '' : ' plain'), st.v));
+    l1.appendChild(document.createTextNode(' = ' + st.e));
+    if (st.out) l1.appendChild(el('span', 'out', '(output)'));
+    li.appendChild(l1);
+    li.appendChild(el('div', 'sub', '= ' + st.s));
+    ol.appendChild(li);
+  });
+  b.appendChild(ol);
+
+  if (d.evidence.length) {
+    b.appendChild(el('h4', 'm-sec', 'Evidence'));
+    const ul = el('ul', 'evid');
+    d.evidence.forEach(e => {
+      const li = document.createElement('li');
+      li.appendChild(el('span', 'claim', e.c));
+      const a = el('a', null, e.l);
+      a.href = e.u; a.target = '_blank'; a.rel = 'noopener noreferrer';
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+    b.appendChild(ul);
+  }
+
+  document.getElementById('modal').scrollTop = 0;
+  overlay.classList.add('open');
+}
+
+/* ---------- Recalc ---------- */
+function recalc() {
+  const r = compute(G, AREAS, SCENARIO);
+
+  document.getElementById('total').textContent = m(r.total) + ' / yr';
+  document.getElementById('chartTotal').textContent = m(r.total) + ' / yr';
+
+  const kpis = [
+    ['3-year net present value', m(r.npv), '3-yr net cash flow, WACC-discounted'],
+    ['Estimated ROI', (r.roi * 100).toFixed(1) + '%', '3-yr net value / 3-yr cost'],
+    ['Payback period', r.payback ? r.payback.toFixed(1) + ' Mo' : 'Not achieved within 3 years', 'Time to full cost recovery'],
+    ['TCO (3-yr)', m(r.tco), 'Recurring + one-time costs, full horizon']
+  ];
+  const kw = document.getElementById('kpis');
+  kw.innerHTML = '';
+  kpis.forEach(([l, v, s]) => {
+    const c = el('div', 'kpi');
+    c.appendChild(el('p', 'l', l));
+    c.appendChild(el('p', 'v', v));
+    c.appendChild(el('p', 's', s));
+    kw.appendChild(c);
+  });
+
+  const segs = AREAS.map(a => ({ a, v: r.areaTotals[a.id] })).filter(x => x.v > 0).sort((x, y) => y.v - x.v);
+  const bar = document.getElementById('bar');
+  const leg = document.getElementById('legend');
+  bar.innerHTML = ''; leg.innerHTML = '';
+  segs.forEach((x, i) => {
+    const pct = r.total > 0 ? (x.v / r.total) * 100 : 0;
+    const seg = el('div', null, pct >= 5 ? Math.round(pct) + '%' : '');
+    seg.style.width = pct + '%';
+    seg.style.backgroundColor = rampColor(i, segs.length);
+    seg.style.color = rampText(i, segs.length);
+    seg.title = x.a.name + ' ' + m(x.v);
+    bar.appendChild(seg);
+
+    const li = el('div');
+    const sw = el('span', 'swatch');
+    sw.style.backgroundColor = rampColor(i, segs.length);
+    li.appendChild(sw);
+    li.appendChild(el('span', 'nm', x.a.name));
+    li.appendChild(el('span', 'vl', m(x.v)));
+    leg.appendChild(li);
+  });
+
+  AREAS.forEach(a => {
+    const t = document.getElementById('at-' + a.id);
+    if (t) t.textContent = m(r.areaTotals[a.id]) + ' / yr';
+    const pn = document.getElementById('ap-' + a.id);
+    if (pn) pn.hidden = r.areaTotals[a.id] !== 0;
+    a.drivers.forEach(d => {
+      const node = document.getElementById('dv-' + a.id + '-' + d.id);
+      if (node) node.textContent = d.pending ? '$0' : m(d._value);
+    });
+  });
+}
+
+/* ---------- Controls ---------- */
+document.getElementById('scenarios').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  SCENARIO = parseFloat(b.dataset.s);
+  [...e.currentTarget.querySelectorAll('button')].forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+  recalc();
+});
+const themeBtn = document.getElementById('theme');
+themeBtn.addEventListener('click', () => {
+  const light = document.documentElement.getAttribute('data-theme') !== 'light';
+  document.documentElement.setAttribute('data-theme', light ? 'light' : 'dark');
+  themeBtn.textContent = light ? 'Dark' : 'Light';
+});
+document.getElementById('expandAll').addEventListener('click', () => {
+  AREAS.forEach(a => { a.open = true; });
+  document.querySelectorAll('.area').forEach(c => {
+    c.classList.add('open');
+    const t = c.querySelector('.area-toggle'); if (t) t.setAttribute('aria-expanded', 'true');
+  });
+});
+document.getElementById('collapseAll').addEventListener('click', () => {
+  AREAS.forEach(a => { a.open = false; });
+  document.querySelectorAll('.area').forEach(c => {
+    c.classList.remove('open');
+    const t = c.querySelector('.area-toggle'); if (t) t.setAttribute('aria-expanded', 'false');
+  });
+});
+
+/* ---------- Boot ---------- */
+window.__MODEL = { GLOBALS, AREAS, G, compute };
+document.getElementById('basis').textContent = basisLine();
+compute(G, AREAS, SCENARIO);
+renderAreas();
+recalc();
+
+</script>
+</body>
+</html>
